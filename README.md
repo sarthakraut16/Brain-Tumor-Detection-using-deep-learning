@@ -107,4 +107,4 @@ The web interface allows users to:
 
 The model's performance is tracked during training, and accuracy/loss plots are generated and saved as `training_history.png`.
 
-##Thank You
+#Thank You
