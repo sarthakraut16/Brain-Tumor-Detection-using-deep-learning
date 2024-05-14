@@ -12,33 +12,16 @@ This project aims to detect brain tumors from MRI images using a Convolutional N
 - [Web Application](#web-application)
 - [Usage](#usage)
 - [Results](#results)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/brain-tumor-detection.git
-   cd brain-tumor-detection
+   git clone https://github.com/sarthakraut16/Brain-Tumor-Detection-using-deep-learning.git
+   cd Brain-Tumor-Detection-using-deep-learning
    ```
-
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   ```
-
-3. Activate the virtual environment:
-   - On Windows:
-     ```bash
-     venv\Scripts\activate
-     ```
-   - On macOS and Linux:
-     ```bash
-     source venv/bin/activate
-     ```
-
-4. Install the required dependencies:
+   
+2. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
@@ -120,20 +103,10 @@ The web interface allows users to:
 1. Navigate to the home page.
 2. Upload an MRI image.
 3. Click on the "Predict!" button.
-4. View the results, including the prediction, confidence, precautions, and home treatment suggestions.
+4. View the results, including the prediction, accuracy, precautions, and home treatment suggestions.
 
 ## Results
 
 The model's performance is tracked during training, and accuracy/loss plots are generated and saved as `training_history.png`.
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any changes or improvements.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-Feel free to contact me if you have any questions or need further assistance. Happy coding!
+##Thank You
