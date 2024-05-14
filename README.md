@@ -1,5 +1,3 @@
-# Brain-Tumor-Detection
- 
 # Brain Tumor Detection Using Deep Learning
 
 This project aims to detect brain tumors from MRI images using a Convolutional Neural Network (CNN) implemented in TensorFlow and Keras. The model is trained to classify MRI images as either containing a tumor or not. This repository contains the code for training the model, testing it on new images, and deploying it as a web application using Flask.
