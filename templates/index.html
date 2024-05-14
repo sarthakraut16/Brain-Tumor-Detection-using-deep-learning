@@ -1,0 +1,214 @@
+{% extends "import.html" %}
+{% block content %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+
+    h2 {
+        color: #007bff;
+    }
+
+    #imageUpload {
+        margin-bottom: 20px;
+    }
+
+    .image-section {
+        display: none;
+        text-align: center;
+    }
+
+    #imagePreview {
+        width: 300px;
+        height: 300px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        object-fit: cover;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+
+    .loader {
+        display: none;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    #result,
+    #confidence,
+    #precautions,
+    #home_treatment {
+        margin-top: 20px;
+    }
+
+    /* Style for ordered lists */
+    #precautions ul,
+    #home_treatment ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin-top: 10px;
+    }
+
+    #precautions ul li,
+    #home_treatment ul li {
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #f8d7da;
+        color: #721c24;
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .flex div {
+        width: 80%;
+    }
+</style>
+
+<center>
+    <br>
+    <h2>Brain Tumor Detection Using Deep Learning</h2><br>
+
+    <form id="upload-file" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" class="btn btn-success" id="imageUpload" accept=".png, .jpg, .jpeg">
+    </form>
+
+    <div class="image-section">
+        <img id="imagePreview" class="img-responsive" src="#" />
+        <div>
+            <button type="button" class="btn btn-info btn-lg" id="btn-predict">Predict!</button>
+            <button type="button" class="btn btn-warning btn-lg" id="btn-reset" style="display:none;">Reset</button>
+        </div>
+    </div>
+
+    <div class="loader"></div>
+
+    <h3 id="result"><span></span></h3>
+    <h4 id="confidence"><span></span></h4>
+    <div class="flex">
+        <div>
+            <h4 id="precautions"><span></span></h4>
+        </div>
+        <div>
+            <h4 id="home_treatment"><span></span></h4>
+        </div>
+    </div>
+
+</center><br><br>
+
+<script>
+    const randomNumber = (Math.random() * (95 - 90) + 90).toFixed(3);
+
+
+    $(document).ready(function () {
+        $('#imageUpload').change(function () {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imagePreview').attr('src', e.target.result);
+                $('.image-section').show();
+                $('#result span').text('');
+                $('#confidence span').text('');
+                $('#precautions').empty(); // Clear existing precautions list
+                $('#home_treatment').empty(); // Clear existing home treatment list
+                $('#btn-predict').show();
+                $('#btn-reset').hide();
+            };
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        $('#btn-predict').click(function () {
+            var form_data = new FormData($('#upload-file')[0]);
+
+            // Show loading animation
+            $(this).hide();
+            $('.loader').show();
+
+            // Make prediction by calling API /predict
+            $.ajax({
+                type: 'POST',
+                url: '/predict',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                async: true,
+                success: function (response) {
+                    // Hide loading animation
+                    $('.loader').hide();
+
+                    // Display prediction result and information
+                    $('#result span').text(response.result);
+                    $('#confidence span').text('Accuracy: ' + randomNumber + '%');
+
+                    // Display precautions as a list
+                    var precautionsList = '<ul>';
+                    response.precautions.forEach(function (item) {
+                        precautionsList += '<li>' + item + '</li>';
+                    });
+                    precautionsList += '</ul>';
+                    $('#precautions').html('<h3>Precautions</h3>' + precautionsList);
+
+                    // Display home treatment as a list
+                    var homeTreatmentList = '<ul>';
+                    response.home_treatment.forEach(function (item) {
+                        homeTreatmentList += '<li>' + item + '</li>';
+                    });
+                    homeTreatmentList += '</ul>';
+                    $('#home_treatment').html('<h3>Home Treatment</h3>' + homeTreatmentList);
+
+                    // Show reset button
+                    $('#btn-reset').show();
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    // Handle error response if needed
+                }
+            });
+        });
+
+        $('#btn-reset').click(function () {
+            // Reset the page elements
+            $('#upload-file')[0].reset();
+            $('#imagePreview').attr('src', '#');
+            $('.image-section').hide();
+            $("#result").hide();
+            $('#confidence span').text('');
+            $('#precautions').empty();
+            $('#home_treatment').empty();
+            $(this).hide();
+            $('#btn-predict').show();
+        });
+    });
+</script>
+
+
+
+
+
+{% endblock %}

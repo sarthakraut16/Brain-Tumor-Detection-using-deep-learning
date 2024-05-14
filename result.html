@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Brain Tumor Detection Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-5">Brain Tumor Detection Result</h1>
+        <div class="alert alert-info mt-3">
+            <h4 class="alert-heading">{{ result }}</h4>
+            <p>Prediction Accuracy: {{ probability }}%</p>
+        </div>
+        <h2>Precautions</h2>
+        <ul>
+            {% for precaution in precautions %}
+            <li>{{ precaution }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Home Made Treatments</h2>
+        <ul>
+            {% for treatment in treatments %}
+            <li>{{ treatment }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/" class="btn btn-primary mt-3">Go Back</a>
+    </div>
+</body>
+
+</html>
